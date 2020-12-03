@@ -1,4 +1,6 @@
 //Username creation Dec 2 2020
+//Easier to use this as a random token generator!!
+
 #include <chrono>
 #include <iostream>
 #include <vector>
@@ -19,7 +21,7 @@ uint32_t getTick() {
     return theTick;
 }
 
-string randomName(int length) {
+string randomToken(int length) {
 
   char consonents[] = {'b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','z'};
   char vowels[] = {'a','e','i','o','u','y'};
@@ -49,14 +51,13 @@ string randomName(int length) {
 }
 
 int main() {
+    cout << "Generating simulation traffic";
     srand(getTick());
     int LENGTH = 25;
-    cout << "Hello World!\n";
-    cout << randomName(LENGTH) << endl;
-    int k = 3;
-    int a = 5;
+    cout << "Creating random tokens!\n";
     for (int i = 0; i < 99; i++){
-       cout << randomName(LENGTH) << endl;
+       cout << "Ranoom part of session token " << i << " is: " 
+       << randomToken(LENGTH) << endl;
     }
     cout << "\nthe end!";
     return 0;
