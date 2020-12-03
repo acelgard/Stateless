@@ -4,6 +4,7 @@
 #include <chrono>
 #include <iostream>
 #include <vector>
+#include <fstream>
 #include <iomanip>
 #include <stdlib.h>
 //#include
@@ -49,16 +50,57 @@ string randomToken(int length) {
   return name;
 
 }
+// source: https://jesushilarioh.com/chapter-7-17-name-search-tony-gaddis-starting-out-with-c-plus-plus/
+// allows a file to be read to a vector
+void readFileContentsIntoVector(vector<string> &vector, const string file_name)
+{
+    ifstream inputFile;
+
+    inputFile.open(file_name);
+
+    if (inputFile.fail())
+    {
+        cout << "Error opening file." << endl; 
+        exit(EXIT_SUCCESS);
+    }
+    else
+    {
+        string content;
+
+        while (inputFile >> content)
+            vector.push_back(content);
+                
+        inputFile.close();
+
+    }
+    
+}
+
+//print out vector information
+void print(vector<string> const &a) {
+   cout << "The vector elements are : ";
+
+   for(int i=0; i < a.size(); i++)
+   cout << a.at(i) << ' ';
+}
 
 int main() {
-    cout << "Generating simulation traffic";
+     vector<string> names;
+    readFileContentsIntoVector(names, "names");
+    print(names);
+
+
+    cout << "\nGenerating simulation traffic";
     srand(getTick());
-    int LENGTH = 25;
+    int LENGTH = 30;
     cout << "Creating random tokens!\n";
-    for (int i = 0; i < 99; i++){
-       cout << "Ranoom part of session token " << i << " is: " 
-       << randomToken(LENGTH) << endl;
+    /*for (int i = 0; i < 99; i++){
+        string rndtk = randomToken(LENGTH);
+        cout << "Ranoom part of session token " << i << " is: " 
+        << rndtk << endl;
+        cout << "Test to see same: " << rndtk << endl;
     }
+    */
     cout << "\nthe end!";
     return 0;
 }
