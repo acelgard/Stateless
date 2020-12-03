@@ -93,7 +93,7 @@ int main() {
     cout << "\nGenerating simulation traffic";
     srand(getTick());
     int LENGTH = 30;
-    cout << "Creating random tokens!\n";
+    cout << "Creating random tokens...\n";
     /*for (int i = 0; i < 99; i++){
         string rndtk = randomToken(LENGTH);
         cout << "Ranoom part of session token " << i << " is: " 
