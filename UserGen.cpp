@@ -101,7 +101,13 @@ int main() {
         cout << "Test to see same: " << rndtk << endl;
     }
     */
+   // concatinate the name, date, sessionID, and random data
+   // push this data in a file by file bases so the gpg bash script can encrypt it
+
+
     cout << "\nthe end!";
     return 0;
 }
 //testing
+// current plan is to use a bash script to encrypt and decrypt with gpg
+// 
