@@ -104,18 +104,17 @@ int main() {
     int LENGTH = 15;
     int tokenIndex = 0;
     int TTL = 3;
-  
     cout << "Creating random tokens...\n";
     for (int i = 0; i < 1500; i++) {
         sessionID.push_back(randomToken(LENGTH));
         cout << "Random part of session token " << i << " is: " << sessionID.at(i) << endl;   
     } 
-    
+
     for (int i=0; i < names.size(); i++){
       for (int j=0; j<3; j++){
         string TTLs = to_string(TTL);
         TTL--;
-        string fullTK = fullToken(names.at(i), sessionID.at(i), TTLs);
+        string fullTK = fullToken(names.at(i), sessionID.at(tokenIndex), TTLs);
         cout << "This the full token before encryption: " << fullTK << endl;
         //token index is used to keep track of what random tokens can still be used
         tokenIndex++;
@@ -123,6 +122,7 @@ int main() {
         cout << "Token index is: " << tokenIndex << " | and its length is : " << leng << endl;
         cout << "TTL :" <<  TTL << endl;
       }
+  
       TTL = 3;
     }  
     
