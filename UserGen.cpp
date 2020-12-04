@@ -7,12 +7,13 @@
 #include <fstream>
 #include <iomanip>
 #include <stdlib.h>
+#include <ctime>
 //#include
 using namespace std;
 
 
 
-
+//random seed gen
 uint32_t getTick() {
     struct timespec ts;
     unsigned theTick = 0U;
@@ -22,34 +23,26 @@ uint32_t getTick() {
     return theTick;
 }
 
+
+// creates random alphanumerical charaters, upper and lower with '-' and '_' are used totaling 64 charaters charaters
 string randomToken(int length) {
 
-  char consonents[] = {'b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','z'};
-  char vowels[] = {'a','e','i','o','u','y'};
+  char alphanumchar[] = {'a','e','i','o','u','y','b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','z',
+                        'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+                        '1','2','3','4','5','6','7','8','9','~','_'}; 
 
   string name = "";
 
   int random = rand() % 2;
-  int count = 0;
 
   for(int i = 0; i < length; i++) {
-
-    if(random < 2 && count < 2) {
-      name = name + consonents[rand() % 19];
-      count++;
+      name = name + alphanumchar[rand() % 63];
     }
-    else {
-      name = name + vowels[rand() % 5];
-      count = 0;
-    }
-
     random = rand() % 2;
-
-  }
-
   return name;
 
 }
+
 // source: https://jesushilarioh.com/chapter-7-17-name-search-tony-gaddis-starting-out-with-c-plus-plus/
 // allows a file to be read to a vector
 void readFileContentsIntoVector(vector<string> &vector, const string file_name)
@@ -81,31 +74,69 @@ void print(vector<string> const &a) {
    cout << "The vector elements are : ";
 
    for(int i=0; i < a.size(); i++)
-   cout << a.at(i) << ' ';
+   cout << "# " << i+1 << ": " << a.at(i) << ' ';
 }
 
+//generates a full token to be encrypted (name-sID-Date-TTL)
+string fullToken(string name, string sID_Token, string TTL) {
+   // current date/time based on current system
+   time_t now = time(0);
+   
+   // convert now to string form
+   char* dt = ctime(&now);
+string fullToken = name + "-" + sID_Token + "-" + dt + TTL;
+return fullToken;
+}
+//START of main function
 int main() {
-     vector<string> names;
-    readFileContentsIntoVector(names, "names");
-    print(names);
+  
+    vector<string> names;
+    vector<string> sessionID;
+    readFileContentsIntoVector(names, "Names");
+    
+
+    
+    //print(names);
 
 
     cout << "\nGenerating simulation traffic";
     srand(getTick());
-    int LENGTH = 30;
+    int LENGTH = 15;
+    int tokenIndex = 0;
+    int TTL = 3;
+  
     cout << "Creating random tokens...\n";
-    /*for (int i = 0; i < 99; i++){
-        string rndtk = randomToken(LENGTH);
-        cout << "Ranoom part of session token " << i << " is: " 
-        << rndtk << endl;
-        cout << "Test to see same: " << rndtk << endl;
-    }
-    */
+    for (int i = 0; i < 1500; i++) {
+        sessionID.push_back(randomToken(LENGTH));
+        cout << "Random part of session token " << i << " is: " << sessionID.at(i) << endl;   
+    } 
+    
+    for (int i=0; i < names.size(); i++){
+      for (int j=0; j<3; j++){
+        string TTLs = to_string(TTL);
+        TTL--;
+        string fullTK = fullToken(names.at(i), sessionID.at(i), TTLs);
+        cout << "This the full token before encryption: " << fullTK << endl;
+        //token index is used to keep track of what random tokens can still be used
+        tokenIndex++;
+        int leng = fullTK.length();
+        cout << "Token index is: " << tokenIndex << " | and its length is : " << leng << endl;
+        cout << "TTL :" <<  TTL << endl;
+      }
+      TTL = 3;
+    }  
+    
    // concatinate the name, date, sessionID, and random data
    // push this data in a file by file bases so the gpg bash script can encrypt it
 
-
-    cout << "\nthe end!";
+ // current date/time based on current system
+   time_t now = time(0);
+   
+   // convert now to string form
+   char* dt = ctime(&now);
+  cout << "the date is: " << dt;
+    cout << "\nthe end!" << endl;
+   
     return 0;
 }
 //testing
