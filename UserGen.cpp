@@ -8,6 +8,8 @@
 #include <iomanip>
 #include <stdlib.h>
 #include <ctime>
+#include <string>
+
 //#include
 using namespace std;
 
@@ -93,50 +95,53 @@ int main() {
     vector<string> names;
     vector<string> sessionID;
     readFileContentsIntoVector(names, "Names");
-    
+
+
 
     
     //print(names);
-
-
     cout << "\nGenerating simulation traffic";
     srand(getTick());
     int LENGTH = 15;
     int tokenIndex = 0;
     int TTL = 3;
     cout << "Creating random tokens...\n";
-    for (int i = 0; i < 1500; i++) {
+    for (int i = 0; i < 2000; i++) {
         sessionID.push_back(randomToken(LENGTH));
         cout << "Random part of session token " << i << " is: " << sessionID.at(i) << endl;   
     } 
 
-    for (int i=0; i < names.size(); i++){
-      for (int j=0; j<3; j++){
-        string TTLs = to_string(TTL);
-        TTL--;
-        string fullTK = fullToken(names.at(i), sessionID.at(tokenIndex), TTLs);
-        cout << "This the full token before encryption: " << fullTK << endl;
-        //token index is used to keep track of what random tokens can still be used
-        tokenIndex++;
-        int leng = fullTK.length();
-        cout << "Token index is: " << tokenIndex << " | and its length is : " << leng << endl;
-        cout << "TTL :" <<  TTL << endl;
-      }
-  
-      TTL = 3;
-    }  
+
+
+
+      for (int i=0; i < names.size(); i++){
+        for (int j=0; j < 5; j++){
+          for (int k=0; k < 3; k++){
+            string TTLs = to_string(TTL);
+            //Three tokens are made with only the TTL Changing 
+            TTL--;
+            cout << "TTL :" <<  TTLs << endl;
+            string fullTK = fullToken(names.at(i), sessionID.at(tokenIndex), TTLs);
+            cout << "This the full token before encryption: " << fullTK << endl;
+            // create file for encryption
+            /*
+            string TKfilename = "tokens/token" + to_string(index) + ".txt";
+            ofstream outfile (TKfilename);
+            outfile << fullTK << endl;
+            outfile.close();
+            */
+            //token index is used to keep track of what random tokens can still be used
+            int leng = fullTK.length();
+            cout << "Token index is: " << tokenIndex << endl << endl;
+           }
+          //go to next session id and rest TTL
+          tokenIndex++;
+          TTL = 3;
+        }
+     }   
     
    // concatinate the name, date, sessionID, and random data
    // push this data in a file by file bases so the gpg bash script can encrypt it
-
- // current date/time based on current system
-   time_t now = time(0);
-   
-   // convert now to string form
-   char* dt = ctime(&now);
-  cout << "the date is: " << dt;
-    cout << "\nthe end!" << endl;
-   
     return 0;
 }
 //testing
