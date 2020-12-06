@@ -124,12 +124,12 @@ int main() {
             string fullTK = fullToken(names.at(i), sessionID.at(tokenIndex), TTLs);
             cout << "This the full token before encryption: " << fullTK << endl;
             // create file for encryption
-            /*
-            string TKfilename = "tokens/token" + to_string(index) + ".txt";
+            
+            string TKfilename = "tokens/token" + to_string(tokenIndex) + TTLs + ".txt";
             ofstream outfile (TKfilename);
             outfile << fullTK << endl;
             outfile.close();
-            */
+            
             //token index is used to keep track of what random tokens can still be used
             int leng = fullTK.length();
             cout << "Token index is: " << tokenIndex << endl << endl;
