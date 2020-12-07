@@ -1,5 +1,6 @@
-//Username creation Dec 2 2020
-//Easier to use this as a random token generator!!
+//Created by Andrew Elgard with help from Jack Musoke for CNA 438: Applied Cryptography
+//started nov 20 2020 finished Dec 6 2020
+
 
 #include <chrono>
 #include <iostream>
@@ -139,11 +140,11 @@ int main() {
           TTL = 3;
         }
      }   
-    
+    cout << "\n\n Number of names are: " << names.size();
    // concatinate the name, date, sessionID, and random data
-   // push this data in a file by file bases so the gpg bash script can encrypt it
+   // push this data in file by file so the gpg bash script can encrypt it
     return 0;
 }
-//testing
-// current plan is to use a bash script to encrypt and decrypt with gpg
-// 
+
+
+
